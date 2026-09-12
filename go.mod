@@ -1,3 +1,3 @@
-module github.com/gbbocchini/go-string-randomizer
+module github.com/gbbocchini/go-randomstring
 
-go 1.18
+go 1.23

@@ -1,37 +1,125 @@
-# go-string-randomizer
+# go-randomstring
 
-Go-string-randomizer is a simple but powerfull random strings generator for GO. 
-You can use it to generate random ids, passwords, etc.
+> Fast, flexible random string generation for Go — ids, tokens, and passwords in one small, dependency-free package.
 
-The package also includes a usefull collection of chars that can be used as argument LettersUniverse.
+[![Go Reference](https://pkg.go.dev/badge/github.com/gbbocchini/go-randomstring.svg)](https://pkg.go.dev/github.com/gbbocchini/go-randomstring)
+[![Go Report Card](https://goreportcard.com/badge/github.com/gbbocchini/go-randomstring)](https://goreportcard.com/report/github.com/gbbocchini/go-randomstring)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+
+## Features
+
+- 🔤 **Flexible character sets** — seven built-in universes, or bring your own (Unicode included).
+- 🔒 **Crypto-secure mode** — draw from `crypto/rand` for passwords and security tokens.
+- 🔁 **Unique batches** — generate thousands of guaranteed-distinct strings in one call.
+- 🎲 **Deterministic output** — pin a `Seed` for reproducible results in tests.
+- 🚀 **Fast** — an ASCII fast path with zero dependencies beyond the standard library.
 
 ## Installation
 
 ```bash
-go get github.com/gbbocchini/go-string-randomizer
+go get github.com/gbbocchini/go-randomstring
+```
+
+## Quick start
+
+```go
+package main
+
+import (
+	"fmt"
+
+	"github.com/gbbocchini/go-randomstring"
+)
+
+func main() {
+	r := randomstring.Randomizer{
+		Universe: randomstring.LowerUpperDigits,
+		Length:   13,
+	}
+	id, err := r.GenerateOne()
+	if err != nil {
+		panic(err)
+	}
+	fmt.Println(id)
+}
 ```
 
 ## Usage
 
+### Basic generation
+
 ```go
-import "github.com/gbbocchini/go-string-randomizer"
-
-randomizer := StringRandomizer{
-    LettersUniverse: LOWER_UPPER_LETTERS_NUMS,
-    GeneratedMaxLen: 13,
-    NoCollisions:    true,
-    RandSeed:        123,
+r := randomstring.Randomizer{
+	Universe: randomstring.LowerLetters,
+	Length:   8,
 }
-
-one := randomizer.GenerateOne()
-
-bulk := randomizer.GenerateBulk(1000000)
+id, err := r.GenerateOne()
 ```
 
-## Contributing
-Pull requests are welcome. For major changes, please open an issue first to discuss what you would like to change.
+### Unique batches
 
-Please make sure to update tests as appropriate.
+Set `Unique` to guarantee every string in a batch is distinct:
+
+```go
+r := randomstring.Randomizer{
+	Universe: randomstring.LowerUpperDigits,
+	Length:   8,
+	Unique:   true,
+}
+ids, err := r.Generate(10_000) // 10,000 distinct ids
+```
+
+### Crypto-secure passwords
+
+```go
+r := randomstring.Randomizer{
+	Universe: randomstring.LowerUpperDigitsSymbols,
+	Length:   32,
+	Secure:   true,
+}
+password, err := r.GenerateOne()
+```
+
+### Deterministic output (great for tests)
+
+```go
+r := randomstring.Randomizer{
+	Universe: randomstring.LowerUpperDigits,
+	Length:   13,
+	Seed:     1,
+}
+id, _ := r.GenerateOne() // always "9g14r5YgIsx9v"
+```
+
+### Custom universe
+
+```go
+r := randomstring.Randomizer{
+	Universe: "ABC123", // only these characters
+	Length:   6,
+}
+```
+
+### Built-in character sets
+
+| Constant | Contents |
+| --- | --- |
+| `LowerLetters` | `a-z` |
+| `UpperLetters` | `A-Z` |
+| `Digits` | `0-9` |
+| `Symbols` | `!@#$%&*()-_+={};:.,` |
+| `LowerUpperLetters` | `a-z` + `A-Z` |
+| `LowerUpperDigits` | `a-z` + `A-Z` + `0-9` |
+| `LowerUpperDigitsSymbols` | `a-z` + `A-Z` + `0-9` + symbols |
+
+## Documentation
+
+Full API reference is available on [pkg.go.dev](https://pkg.go.dev/github.com/gbbocchini/go-randomstring).
+
+## Contributing
+
+Pull requests are welcome. For major changes, please open an issue first to discuss what you would like to change, and update tests as appropriate.
 
 ## License
-[MIT](https://choosealicense.com/licenses/mit/)
+
+[MIT](LICENSE) © Gabriel Bocchini

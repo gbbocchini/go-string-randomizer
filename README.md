@@ -3,7 +3,7 @@
 > Fast, flexible random string generation for Go — ids, tokens, and passwords in one small, dependency-free package.
 
 [![Go Reference](https://pkg.go.dev/badge/github.com/gbbocchini/go-randomstring.svg)](https://pkg.go.dev/github.com/gbbocchini/go-randomstring)
-[![Go Report Card](https://goreportcard.com/badge/github.com/gbbocchini/go-randomstring)](https://goreportcard.com/report/github.com/gbbocchini/go-randomstring)
+[![CI](https://github.com/gbbocchini/go-randomstring/actions/workflows/ci.yml/badge.svg)](https://github.com/gbbocchini/go-randomstring/actions/workflows/ci.yml)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
 ## Features
